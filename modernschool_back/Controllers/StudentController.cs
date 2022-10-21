@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using modernschool_back.Interfaces;
 using modernschool_back.Models;
 
 namespace modernschool_back.Controllers

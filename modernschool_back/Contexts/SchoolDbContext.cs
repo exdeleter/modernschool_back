@@ -3,9 +3,12 @@ using modernschool_back.Models;
 
 namespace modernschool_back.Contexts
 {
-    public class SchoolDbContext : DbContext
+    public class SchoolDBContext : DbContext
     {
-        public SchoolDbContext(DbContextOptions<SchoolDbContext> options) : base(options) { }
+        public SchoolDBContext(DbContextOptions<SchoolDBContext> options) : base(options) 
+        {
+            Database.EnsureCreated();
+        }
         public DbSet<Student> Students { get; set; }    
         public DbSet<Class> Class { get; set; }
         public DbSet<Subject> Subjects { get; set; }

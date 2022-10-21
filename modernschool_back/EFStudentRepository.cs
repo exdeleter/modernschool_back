@@ -1,11 +1,12 @@
 ﻿using modernschool_back.Contexts;
+using modernschool_back.Interfaces;
 using modernschool_back.Models;
 
 namespace modernschool_back
 {
     public class EFStudentRepository: IStudent
     {
-        private SchoolDbContext _context;
+        private SchoolDBContext _context;
         public IEnumerable<Student> Get()
         {
             return _context.Students;
@@ -14,7 +15,7 @@ namespace modernschool_back
         {
             return _context.Students.Find(id);
         }
-        public EFStudentRepository(SchoolDbContext context)
+        public EFStudentRepository(SchoolDBContext context)
         {
             _context = context;
         }
