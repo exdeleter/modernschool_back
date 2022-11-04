@@ -11,7 +11,7 @@ using modernschool_back.Contexts;
 
 namespace modernschool_back.Migrations
 {
-    [DbContext(typeof(SchoolDbContext))]
+    [DbContext(typeof(SchoolDBContext))]
     [Migration("20221012175347_Initial")]
     partial class Initial
     {

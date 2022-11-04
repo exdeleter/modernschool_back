@@ -1,6 +1,6 @@
 ﻿using modernschool_back.Models;
 
-namespace modernschool_back
+namespace modernschool_back.Interfaces
 {
     public interface IStudent
     {
