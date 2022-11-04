@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using modernschool_back.Contexts;
@@ -6,6 +7,7 @@ using modernschool_back.Models;
 
 namespace modernschool_back.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class SubjectController : ControllerBase
@@ -21,6 +23,7 @@ namespace modernschool_back.Controllers
                 db.SaveChanges();
             }
         }
+        [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Subject>>> Get()
         {
