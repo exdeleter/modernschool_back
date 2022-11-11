@@ -12,6 +12,7 @@ namespace modernschool_back.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        // TODO: Добавить юзеров в бд
         public static User user = new User();
         private readonly IConfiguration _configuration;
 
@@ -70,7 +71,8 @@ namespace modernschool_back.Controllers
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name,user.UserName)
+                new Claim(ClaimTypes.Name,user.UserName),
+                new Claim(ClaimTypes.Role, "Admin")
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

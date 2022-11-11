@@ -23,8 +23,9 @@ namespace modernschool_back.Controllers
                 db.SaveChanges();
             }
         }
-        [AllowAnonymous]
-        [HttpGet]
+        
+
+        [HttpGet(Name = "GetAllSubjects"), Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Subject>>> Get()
         {
             return await db.Subjects.ToListAsync();
