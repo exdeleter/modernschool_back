@@ -12,6 +12,7 @@ namespace modernschool_back.Controllers
         public StudentController(IStudent iStudent)
         {
             _istudent = iStudent;
+            
         }
 
         [HttpGet(Name = "GetAllStudents")]

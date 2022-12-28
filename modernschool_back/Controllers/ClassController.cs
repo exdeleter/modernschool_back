@@ -14,6 +14,42 @@ namespace modernschool_back.Controllers
         public ClassController(SchoolDBContext db)
         {
             this.db = db;
+            if (!db.Class.Any())
+            {
+                db.Class.Add(new Class
+                {
+                    Name = "A", Number = 1, Teacher = new Teacher
+                    {
+                        Name = "Маргарита", Surname = "Алешина", Patronymic = "Серафимовна",
+                        Age = 37, Subject = new Subject { Name = "Базы данных" }
+                    }
+                });
+                db.Class.Add(new Class
+                {
+                    Name = "A", Number = 2, Teacher = new Teacher
+                    {
+                        Name = "Александр", Surname = "Ярошевский", Patronymic = "Филиппович",
+                        Age = 38, Subject = new Subject { Name = "ИЗО" }
+                    }
+                });
+                db.Class.Add(new Class
+                {
+                    Name = "Б", Number = 1, Teacher = new Teacher
+                    {
+                        Name = "Любовь", Surname = "Унгерна", Patronymic = "Васильевна",
+                        Age = 42, Subject = new Subject { Name = "ОБЖ" }
+                    }
+                });
+                db.Class.Add(new Class
+                {
+                    Name = "В", Number = 1, Teacher = new Teacher
+                    {
+                        Name = "Павел", Surname = "Сиянковский", Patronymic = "Артемович",
+                        Age = 32, Subject = new Subject { Name = "Физкультура" }
+                    }
+                });
+                db.SaveChanges();
+            }
         }
 
         [HttpGet]

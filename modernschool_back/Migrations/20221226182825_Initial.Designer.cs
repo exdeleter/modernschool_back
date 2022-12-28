@@ -12,7 +12,7 @@ using modernschool_back.Contexts;
 namespace modernschool_back.Migrations
 {
     [DbContext(typeof(SchoolDBContext))]
-    [Migration("20221012175347_Initial")]
+    [Migration("20221226182825_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

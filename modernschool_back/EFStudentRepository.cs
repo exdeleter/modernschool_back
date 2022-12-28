@@ -18,6 +18,27 @@ namespace modernschool_back
         public EFStudentRepository(SchoolDBContext context)
         {
             _context = context;
+            if (!context.Students.Any())
+            {
+                context.Students.Add(new Student
+                {
+                    Name = "Антон",
+                    Surname = "Максимушкин",
+                    Patronymic = "Аркадинович",
+                    Age = 7,
+                    Phone = "8902333434",
+                    Class = new Class
+                    {
+                        Name = "В", Number = 2, Teacher = new Teacher
+                        {
+                            Name = "Руслан", Surname = "Сиянковский", Patronymic = "Артемович",
+                            Age = 32, Subject = new Subject { Name = "Физкультура" }
+                        }
+                    },
+                    Subjects = new List<Subject>() { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } }
+                });
+                context.SaveChanges();
+            }
         }
         public void Create(Student student)
         {

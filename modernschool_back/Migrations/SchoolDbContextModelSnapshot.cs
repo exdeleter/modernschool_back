@@ -11,7 +11,7 @@ using modernschool_back.Contexts;
 namespace modernschool_back.Migrations
 {
     [DbContext(typeof(SchoolDBContext))]
-    partial class SchoolDbContextModelSnapshot : ModelSnapshot
+    partial class SchoolDBContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
