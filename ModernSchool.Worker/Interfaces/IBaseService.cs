@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using ModernSchool.Worker.Models;
 
 namespace ModernSchool.Worker.Interfaces;
@@ -9,7 +8,7 @@ public interface IBaseService<T>
 {
     Task<ActionResult<IEnumerable<T>>> Get();
     
-    Task<ActionResult<T>> Get(int id);
+    Task<ActionResult<T>> Get(int? id);
     
     Task<ActionResult<T>> Post(T? entity);
     

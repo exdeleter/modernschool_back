@@ -2,20 +2,19 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using ModernSchool.Worker;
 using ModernSchool.Worker.Contexts;
 using ModernSchool.Worker.Interfaces;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace ModernSchool.Worker.Extensions;
 
 public static class ServiceExtension
 {
     public static IServiceCollection ServiceExtensionConfigure(this IServiceCollection services)
     {
-        
         services.AddTransient<IStudent, EFStudentRepository>();
 
         services.AddTransient<DbContext, SchoolDBContext>();
+        
         return services;
     }
     

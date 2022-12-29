@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModernSchool.Worker.Interfaces;
@@ -21,14 +20,21 @@ public class BaseController<TEntity>
     }
 
     [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult<IEnumerable<TEntity>>> Get()
     {
         return await _dbSet.ToListAsync();
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<TEntity>> Get(int id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<TEntity>> Get(int? id)
     {
+        if (id is null)
+            return BadRequest();
+
         TEntity? result = await _dbSet
             .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -39,6 +45,8 @@ public class BaseController<TEntity>
     }
 
     [HttpPost]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<TEntity>> Post(TEntity? entity)
     {
         if (entity is null)
