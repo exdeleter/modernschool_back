@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using ModernSchool.Worker.Contexts;
 
@@ -12,7 +13,7 @@ public static class DbExtension
             options =>
             {
                 options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-                options.LogTo(message => System.Diagnostics.Debug.WriteLine(message));
+                options.LogTo(message => Debug.WriteLine(message));
             });
 
         return services;

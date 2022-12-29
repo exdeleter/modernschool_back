@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ModernSchool.Worker.Models;
+﻿namespace ModernSchool.Worker.Models;
 
 public class Class : BaseEntity
 {

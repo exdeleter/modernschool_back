@@ -25,7 +25,7 @@ builder.Services.AddSwaggerGen(options =>
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
 
-builder.Services.ServiceExtensionConfigure(builder);
+builder.Services.ServiceExtensionConfigure();
 
 builder.Services.AddAuthorization(builder);
 

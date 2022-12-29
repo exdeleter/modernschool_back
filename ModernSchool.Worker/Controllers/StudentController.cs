@@ -2,64 +2,63 @@
 using ModernSchool.Worker.Interfaces;
 using ModernSchool.Worker.Models;
 
-namespace ModernSchool.Worker.Controllers
+namespace ModernSchool.Worker.Controllers;
+
+[Route("api/[controller]")]
+public class StudentController: Controller
 {
-    [Route("api/[controller]")]
-    public class StudentController: Controller
+    IStudent _istudent;
+
+    public StudentController(IStudent iStudent)
     {
-        IStudent _istudent;
-
-        public StudentController(IStudent iStudent)
-        {
-            _istudent = iStudent;
+        _istudent = iStudent;
             
-        }
+    }
 
-        [HttpGet(Name = "GetAllStudents")]
-        public IEnumerable<Student> Get()
+    [HttpGet(Name = "GetAllStudents")]
+    public IEnumerable<Student> Get()
+    {
+        return _istudent.Get();
+    }
+
+    [HttpGet("{id}", Name = "GetStudent")]
+    public IActionResult Get(int id)
+    {
+        Student stud = _istudent.Get(id);
+        if(stud == null)
         {
-            return _istudent.Get();
+            return NotFound();
         }
+        return new ObjectResult(stud);
+    }
 
-        [HttpGet("{id}", Name = "GetStudent")]
-        public IActionResult Get(int id)
+    [HttpPost]
+    public IActionResult Update(int Id, [FromBody] Student updatedStudent)
+    {
+        if (updatedStudent == null || updatedStudent.Id != Id)
         {
-            Student stud = _istudent.Get(id);
-            if(stud == null)
-            {
-                return NotFound();
-            }
-            return new ObjectResult(stud);
+            return BadRequest();
         }
 
-        [HttpPost]
-        public IActionResult Update(int Id, [FromBody] Student updatedStudent)
+        var stud = _istudent.Get(Id);
+        if (stud == null)
         {
-            if (updatedStudent == null || updatedStudent.Id != Id)
-            {
-                return BadRequest();
-            }
-
-            var stud = _istudent.Get(Id);
-            if (stud == null)
-            {
-                return NotFound();
-            }
-
-            _istudent.Update(updatedStudent);
-            return RedirectToRoute("GetAllStudents");
+            return NotFound();
         }
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int Id)
+        _istudent.Update(updatedStudent);
+        return RedirectToRoute("GetAllStudents");
+    }
+
+    [HttpDelete("{id}")]
+    public IActionResult Delete(int Id)
+    {
+        var deletedStudent = _istudent.Delete(Id);
+        if (deletedStudent == null) 
         {
-            var deletedStudent = _istudent.Delete(Id);
-            if (deletedStudent == null) 
-            {
-                return BadRequest();
-            }
-
-            return new ObjectResult(deletedStudent);
+            return BadRequest();
         }
+
+        return new ObjectResult(deletedStudent);
     }
 }
