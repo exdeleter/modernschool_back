@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ModernSchool.Worker.Contexts;
 using ModernSchool.Worker.Interfaces;
+using ModernSchool.Worker.MapperProfiles;
 
 namespace ModernSchool.Worker.Extensions;
 
@@ -14,10 +15,18 @@ public static class ServiceExtension
         services.AddTransient<IStudent, EFStudentRepository>();
 
         services.AddTransient<DbContext, SchoolDBContext>();
-        
+
+        services.AddAutoMapper(typeof(StudentProfile));
         return services;
     }
     
+    public static IServiceCollection AddProfile(this IServiceCollection services)
+    {
+        services.AddAutoMapper(typeof(StudentProfile));
+
+        return services;
+    }
+
     public static IServiceCollection AddAuthorization(this IServiceCollection services,
         WebApplicationBuilder builder)
     {

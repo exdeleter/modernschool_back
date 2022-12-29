@@ -12,6 +12,7 @@ namespace ModernSchool.Worker.Controllers;
 public class SubjectController : ControllerBase
 {
     SchoolDBContext db;
+
     public SubjectController(SchoolDBContext db)
     {
         this.db = db;

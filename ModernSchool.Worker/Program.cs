@@ -24,6 +24,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.ServiceExtensionConfigure();
+builder.Services.AddProfile();
 
 builder.Services.AddAuthorization(builder);
 

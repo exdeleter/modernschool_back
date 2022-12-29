@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+namespace ModernSchool.Worker.Dtos;
 
-namespace ModernSchool.Worker.Models;
-
-public class Student : BaseEntity
+public class StudentDto
 {
     /// <summary>
     /// TODO
@@ -18,19 +16,19 @@ public class Student : BaseEntity
     /// TODO
     /// </summary>
     public string Patronymic { get; set; }
-    public int Age { get; set; }
     
-    [ForeignKey("Class")]
-    public int ClassId { get; set; }
     /// <summary>
     /// TODO
     /// </summary>
-    public Class Class { get; set; }
-    
+    public int Age { get; set; }
+
     /// <summary>
     /// TODO
     /// </summary>
     public string Phone { get; set; }
     
-    public List<Subject> Subjects { get; set; } = new List<Subject>();  
+    /// <summary>
+    /// TODO
+    /// </summary>
+    public string TeacherFIO { get; set; }
 }
