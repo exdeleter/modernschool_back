@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace ModernSchool.Worker.Models;
 
-namespace ModernSchool.Worker.Models;
-
-public class Subject
+public class Subject : BaseEntity
 {
-    [Key]
-    public int SubjectId { get; set; }
+    /// <summary>
+    /// Наименование
+    /// </summary>
     public string Name { get; set; }
 }

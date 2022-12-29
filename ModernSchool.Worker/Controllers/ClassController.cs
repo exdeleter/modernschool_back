@@ -62,7 +62,7 @@ namespace ModernSchool.Worker.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Class>> Get(int id)
         {
-            Class cls = await db.Class.FirstOrDefaultAsync(x => x.ClassId == id);
+            Class cls = await db.Class.FirstOrDefaultAsync(x => x.Id == id);
             if (cls == null)
                 return NotFound();
             return new ObjectResult(cls);
@@ -90,7 +90,7 @@ namespace ModernSchool.Worker.Controllers
             {
                 return BadRequest();
             }
-            if (!db.Class.Any(x => x.ClassId == cls.ClassId))
+            if (!db.Class.Any(x => x.Id == cls.Id))
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace ModernSchool.Worker.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Class>> Delete(int id)
         {
-            Class cls = db.Class.FirstOrDefault(x => x.ClassId == id);
+            Class cls = db.Class.FirstOrDefault(x => x.Id == id);
             if (cls == null)
             {
                 return NotFound();

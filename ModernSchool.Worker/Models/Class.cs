@@ -2,11 +2,20 @@
 
 namespace ModernSchool.Worker.Models;
 
-public class Class
+public class Class : BaseEntity
 {
-    [Key]
-    public int ClassId { get; set; }
+    /// <summary>
+    /// Наименование класса
+    /// </summary>
     public string Name { get; set; }
+    
+    /// <summary>
+    /// Цифра
+    /// </summary>
     public int Number { get; set; }
+    
+    /// <summary>
+    /// 
+    /// </summary>
     public Teacher Teacher { get; set; }
 }
