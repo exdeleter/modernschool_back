@@ -5,27 +5,27 @@ namespace ModernSchool.Worker.Models;
 public class Teacher : BaseEntity
 {
     /// <summary>
-    /// TODO
+    /// Имя 
     /// </summary>
     public string Name { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Фамилия 
     /// </summary>
     public string Surname { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Отчество
     /// </summary>
     public string Patronymic { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Возраст
     /// </summary>
     public int Age { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Предмет, который он приподает
     /// </summary>
     public Subject Subject { get; set; }
 }
