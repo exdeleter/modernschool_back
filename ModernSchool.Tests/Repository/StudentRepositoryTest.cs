@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using modernschool_back;
-using modernschool_back.Contexts;
-using modernschool_back.Controllers;
-using modernschool_back.Models;
+using ModernSchool.Worker;
+using ModernSchool.Worker.Contexts;
+using ModernSchool.Worker.Controllers;
+using ModernSchool.Worker.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\modernschool_back\modernschool_back.csproj" />
+    <ProjectReference Include="..\ModernSchool.Worker\ModernSchool.Worker.csproj" />
   </ItemGroup>
 
 </Project>
