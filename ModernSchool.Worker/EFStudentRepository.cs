@@ -47,7 +47,7 @@ namespace ModernSchool.Worker
         }
         public void Update(Student updatedStudent)
         {
-            Student currentStudent = Get(updatedStudent.StudentId);
+            Student currentStudent = Get(updatedStudent.Id);
             currentStudent.Name = updatedStudent.Name;
             currentStudent.Age = updatedStudent.Age;
             currentStudent.Surname = updatedStudent.Surname;
@@ -55,7 +55,6 @@ namespace ModernSchool.Worker
             currentStudent.Subjects = updatedStudent.Subjects;
             currentStudent.Class = updatedStudent.Class;
             currentStudent.Phone = updatedStudent.Phone;
-            currentStudent.StudentId = updatedStudent.StudentId;
 
             _context.Students.Update(currentStudent);
             _context.SaveChanges();

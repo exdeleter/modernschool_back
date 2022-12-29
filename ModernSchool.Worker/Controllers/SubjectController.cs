@@ -38,7 +38,7 @@ namespace ModernSchool.Worker.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Subject>>Get(int id)
         {
-            Subject subject = await db.Subjects.FirstOrDefaultAsync(x => x.SubjectId == id);
+            Subject subject = await db.Subjects.FirstOrDefaultAsync(x => x.Id == id);
             if (subject == null) 
             {
                 return NotFound();
@@ -65,7 +65,7 @@ namespace ModernSchool.Worker.Controllers
             {
                 return BadRequest();
             }
-            if (!db.Subjects.Any(x => x.SubjectId == subject.SubjectId))
+            if (!db.Subjects.Any(x => x.Id == subject.Id))
             {
                 return NotFound();
             }
@@ -77,7 +77,7 @@ namespace ModernSchool.Worker.Controllers
         [HttpDelete]
         public async Task<ActionResult<Subject>> Delete(int id)
         {
-            Subject subject = db.Subjects.FirstOrDefault(x => x.SubjectId == id);
+            Subject subject = db.Subjects.FirstOrDefault(x => x.Id == id);
             if (subject == null)
             {
                 return NotFound();

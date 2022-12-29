@@ -35,7 +35,7 @@ namespace ModernSchool.Worker.Controllers
         [HttpPost]
         public IActionResult Update(int Id, [FromBody] Student updatedStudent)
         {
-            if (updatedStudent == null || updatedStudent.StudentId != Id)
+            if (updatedStudent == null || updatedStudent.Id != Id)
             {
                 return BadRequest();
             }

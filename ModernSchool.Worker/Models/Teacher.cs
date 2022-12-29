@@ -2,13 +2,30 @@
 
 namespace ModernSchool.Worker.Models;
 
-public class Teacher
+public class Teacher : BaseEntity
 {
-    [Key]
-    public int TeacherId { get; set; }
+    /// <summary>
+    /// TODO
+    /// </summary>
     public string Name { get; set; }
+    
+    /// <summary>
+    /// TODO
+    /// </summary>
     public string Surname { get; set; }
+    
+    /// <summary>
+    /// TODO
+    /// </summary>
     public string Patronymic { get; set; }
+    
+    /// <summary>
+    /// TODO
+    /// </summary>
     public int Age { get; set; }
+    
+    /// <summary>
+    /// TODO
+    /// </summary>
     public Subject Subject { get; set; }
 }
