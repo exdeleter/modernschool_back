@@ -13,6 +13,35 @@ namespace modernschool_back.Controllers
         public TeacherController(SchoolDBContext db)
         {
             this.db = db;
+            if (!db.Teachers.Any())
+            {
+                db.Teachers.Add(new Teacher
+                {
+                    Name = "Маргарита", Surname = "Алешина", Patronymic = "Серафимовна",
+                    Age = 37, Subject = new Subject { Name = "Базы данных" }
+                });
+                db.Teachers.Add(new Teacher
+                {
+                    Name = "Клавдия", Surname = "Иванцова", Patronymic = "Николаевна",
+                    Age = 40, Subject = new Subject { Name = "Программирование" }
+                });
+                db.Teachers.Add(new Teacher
+                {
+                    Name = "Герман", Surname = "Кошков", Patronymic = "Никитович",
+                    Age = 42, Subject = new Subject { Name = "Музыка" }
+                });
+                db.Teachers.Add(new Teacher
+                {
+                    Name = "Давид", Surname = "Халимдаров", Patronymic = "Григорьевич",
+                    Age = 28, Subject = new Subject { Name = "Литература" }
+                });
+                db.Teachers.Add(new Teacher
+                {
+                    Name = "Анна", Surname = "Балашова", Patronymic = "Степановна",
+                    Age = 29, Subject = new Subject { Name = "Английский" }
+                });
+                db.SaveChanges();
+            }
         }
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Teacher>>> Get()

@@ -18,8 +18,12 @@ namespace modernschool_back.Controllers
             this.db = db;
             if (!db.Subjects.Any())
             {
-                db.Subjects.Add(new Models.Subject { Name = "Философия" });
-                db.Subjects.Add(new Models.Subject { Name = "УМФ" });
+                db.Subjects.Add(new Subject { Name = "Философия" });
+                db.Subjects.Add(new Subject { Name = "УМФ" });
+                db.Subjects.Add(new Subject { Name = "Русский язык" });
+                db.Subjects.Add(new Subject { Name = "Математика" });
+                db.Subjects.Add(new Subject { Name = "Обществознание" });
+                db.Subjects.Add(new Subject { Name = "Физкультура" });
                 db.SaveChanges();
             }
         }
