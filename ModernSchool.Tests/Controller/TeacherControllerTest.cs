@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using modernschool_back.Contexts;
-using modernschool_back.Controllers;
-using modernschool_back.Models;
+using ModernSchool.Worker.Contexts;
+using ModernSchool.Worker.Controllers;
+using ModernSchool.Worker.Models;
 
 namespace ModernSchool.Tests.Controller
 {
