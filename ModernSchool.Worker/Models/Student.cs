@@ -3,31 +3,37 @@
 public class Student : BaseEntity
 {
     /// <summary>
-    /// TODO
+    /// Имя 
     /// </summary>
     public string Name { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Фамилия 
     /// </summary>
     public string Surname { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Отчество 
     /// </summary>
     public string Patronymic { get; set; }
+    
+    /// <summary>
+    /// Возраст
+    /// </summary>
     public int Age { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Класс студента
     /// </summary>
     public Class Class { get; set; }
     
     /// <summary>
-    /// TODO
+    /// Телефон
     /// </summary>
     public string Phone { get; set; }
     
-    
+    /// <summary>
+    /// Список предметов
+    /// </summary>
     public List<Subject> Subjects { get; set; } = new List<Subject>();  
 }

@@ -3,17 +3,17 @@
 public class Class : BaseEntity
 {
     /// <summary>
-    /// Наименование класса
+    /// Наименование 
     /// </summary>
     public string Name { get; set; }
     
     /// <summary>
-    /// Цифра
+    /// Номер 
     /// </summary>
     public int Number { get; set; }
     
     /// <summary>
-    /// 
+    /// Учитель, привязанный к классу (руководитель)
     /// </summary>
     public Teacher Teacher { get; set; }
 }

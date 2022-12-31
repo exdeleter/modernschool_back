@@ -3,7 +3,7 @@
 public class Subject : BaseEntity
 {
     /// <summary>
-    /// Наименование
+    /// Наименование предмета
     /// </summary>
     public string Name { get; set; }
 }
