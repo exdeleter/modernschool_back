@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ModernSchool.Worker.Models;
 
 namespace ModernSchool.Worker.Controllers;
 
-public class ScheduleController : Controller
+[Route("api/[controller]")]
+[ApiController]
+public class ScheduleController : BaseController<Schedule>
 {
-    // GET
-    public IActionResult Index()
+    public ScheduleController(DbContext context) : base(context)
     {
-        return View();
+        
     }
 }

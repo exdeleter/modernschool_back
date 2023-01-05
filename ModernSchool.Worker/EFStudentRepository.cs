@@ -38,7 +38,7 @@ public class EFStudentRepository : IStudent
                         Age = 32, Subject = new Subject { Name = "Физкультура" }
                     }
                 },
-                Subjects = new List<Subject>() { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } }
+                //Subjects = new List<Subject>() { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } }
             });
             context.SaveChanges();
         }
@@ -57,7 +57,7 @@ public class EFStudentRepository : IStudent
         currentStudent.Age = updatedStudent.Age;
         currentStudent.Surname = updatedStudent.Surname;
         currentStudent.Patronymic = updatedStudent.Patronymic;
-        currentStudent.Subjects = updatedStudent.Subjects;
+        //currentStudent.Subjects = updatedStudent.Subjects;
         currentStudent.Class = updatedStudent.Class;
         currentStudent.Phone = updatedStudent.Phone;
 

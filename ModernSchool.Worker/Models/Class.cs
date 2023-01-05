@@ -16,4 +16,14 @@ public class Class : BaseEntity
     /// Учитель, привязанный к классу (руководитель)
     /// </summary>
     public Teacher Teacher { get; set; }
+    
+    /// <summary>
+    /// Список предметов у класса
+    /// </summary>
+    public List<Subject> Subjects { get; set; } 
+    
+    /// <summary>
+    /// Ученики
+    /// </summary>
+    public List<Student>Students { get; set; }
 }
