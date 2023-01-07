@@ -35,8 +35,10 @@ public class EFStudentRepository : IStudent
                     Name = "В", Number = 2, Teacher = new Teacher
                     {
                         Name = "Руслан", Surname = "Сиянковский", Patronymic = "Артемович",
-                        Age = 32, Subject = new Subject { Name = "Физкультура" }
-                    }
+                        Age = 32, Subject = new Subject { Name = "Физкультура" },
+                    },
+                    Subjects = new List<Subject> { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } },
+                    Students= new List<Student> {}
                 },
                 //Subjects = new List<Subject>() { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } }
             });

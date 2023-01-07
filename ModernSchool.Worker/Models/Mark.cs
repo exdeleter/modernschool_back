@@ -10,5 +10,5 @@ public class Mark: BaseEntity
     /// <summary>
     /// Оценка
     /// </summary>
-    public decimal Score { get; set; }
+    public int Score { get; set; }
 }
