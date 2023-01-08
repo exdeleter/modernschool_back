@@ -17,7 +17,7 @@ public class ScheduleController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Schedule>>> Get()
     {
-        return await db.Schedules.Include(x=>x.Subjects).Include(x=>x.Class).ToListAsync();
+        return await db.Schedules.Include(x=>x.Subjects).ToListAsync();
     }
     [HttpGet("{id}")]
     public async Task<ActionResult<Schedule>> Get(int studentID, DateTime date)
