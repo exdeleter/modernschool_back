@@ -60,7 +60,7 @@ public class TeacherController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Teacher>>> Get()
     {
-        return await db.Teachers.ToListAsync();
+        return await db.Teachers.Include(t => t.Subject).ToListAsync();
     }
 
     [HttpGet("{id}")]

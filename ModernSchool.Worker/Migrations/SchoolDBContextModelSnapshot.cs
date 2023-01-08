@@ -55,8 +55,8 @@ namespace ModernSchool.Worker.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Score")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
 
                     b.Property<int>("TaskId")
                         .HasColumnType("integer");

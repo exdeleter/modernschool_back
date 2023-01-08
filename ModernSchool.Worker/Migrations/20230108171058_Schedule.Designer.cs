@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ModernSchool.Worker.Migrations
 {
     [DbContext(typeof(SchoolDBContext))]
-    [Migration("20230105131157_Modern")]
-    partial class Modern
+    [Migration("20230108171058_Schedule")]
+    partial class Schedule
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,8 +57,8 @@ namespace ModernSchool.Worker.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Score")
-                        .HasColumnType("numeric");
+                    b.Property<int>("Score")
+                        .HasColumnType("integer");
 
                     b.Property<int>("TaskId")
                         .HasColumnType("integer");

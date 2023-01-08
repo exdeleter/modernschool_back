@@ -17,15 +17,16 @@ public class ScheduleController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Schedule>>> Get()
     {
-        return await db.Schedules.ToListAsync();
+        return await db.Schedules.Include(x=>x.Subjects).Include(x=>x.Class).ToListAsync();
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<Schedule>> Get(int studentID)
+    public async Task<ActionResult<Schedule>> Get(int studentID, DateTime date)
     {
         var schedule = await (from s in db.Schedules
-                                  join st in db.Students on s.Class equals st.Class
-                                   where st.Id == studentID
-                                   select s.Subjects).ToListAsync();
+                              join st in db.Students on s.Class equals st.Class
+                              where (st.Id == studentID && s.CurrentDate == date)
+                              select s.Subjects).ToListAsync();
+
         if (schedule == null )
         {
             return NotFound();

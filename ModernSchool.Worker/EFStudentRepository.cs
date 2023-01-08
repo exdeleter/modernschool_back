@@ -1,4 +1,5 @@
-﻿using ModernSchool.Worker.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using ModernSchool.Worker.Contexts;
 using ModernSchool.Worker.Interfaces;
 using ModernSchool.Worker.Models;
 
@@ -23,6 +24,7 @@ public class EFStudentRepository : IStudent
         _context = context;
         if (!context.Students.Any())
         {
+            
             context.Students.Add(new Student
             {
                 Name = "Антон",

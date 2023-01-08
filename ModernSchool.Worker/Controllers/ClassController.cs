@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ModernSchool.Worker.Contexts;
 using ModernSchool.Worker.Models;
@@ -12,6 +11,13 @@ namespace ModernSchool.Worker.Controllers
     {
         public ClassController(DbContext context) : base(context)
         {
+
+        }
+
+        [HttpGet]
+        public override async Task<ActionResult<IEnumerable<Class>>> Get()
+        {
+            return await _dbSet.Include(x=>x.Teacher).ToListAsync();
         }
     }
 }

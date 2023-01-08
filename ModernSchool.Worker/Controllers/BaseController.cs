@@ -21,7 +21,7 @@ public class BaseController<TEntity>
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<TEntity>>> Get()
+    public virtual async Task<ActionResult<IEnumerable<TEntity>>> Get()
     {
         return await _dbSet.ToListAsync();
     }
