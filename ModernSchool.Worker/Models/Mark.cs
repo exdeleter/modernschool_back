@@ -5,7 +5,7 @@ public class Mark: BaseEntity
     /// <summary>
     /// Задание
     /// </summary>
-    public Task Task { get; set; }
+    public Problem Problem { get; set; }
     
     /// <summary>
     /// Оценка

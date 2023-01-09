@@ -1,6 +1,6 @@
 namespace ModernSchool.Worker.Models;
 
-public class Task: BaseEntity
+public class Problem: BaseEntity
 {
     /// <summary>
     /// Описание задачи
