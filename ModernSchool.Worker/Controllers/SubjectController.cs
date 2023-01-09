@@ -28,12 +28,12 @@ public class SubjectController : ControllerBase
             */
         }
     }
-        
+
 
     [HttpGet(Name = "GetAllSubjects"), Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<Subject>>> Get()
     {
-        return await db.Subjects.Include(x => x.Term).ToListAsync();
+         return await db.Subjects.Include(x => x.Term).ToListAsync();
     }
 
     [HttpGet("{id}")]
