@@ -17,6 +17,7 @@ public class SubjectController : ControllerBase
         this.db = db;
         if (!db.Subjects.Any())
         {
+            /*
             db.Subjects.Add(new Subject { Name = "Философия" });
             db.Subjects.Add(new Subject { Name = "УМФ" });
             db.Subjects.Add(new Subject { Name = "Русский язык" });
@@ -24,14 +25,15 @@ public class SubjectController : ControllerBase
             db.Subjects.Add(new Subject { Name = "Обществознание" });
             db.Subjects.Add(new Subject { Name = "Физкультура" });
             db.SaveChanges();
+            */
         }
     }
-        
+
 
     [HttpGet(Name = "GetAllSubjects"), Authorize(Roles = "Admin")]
     public async Task<ActionResult<IEnumerable<Subject>>> Get()
     {
-        return await db.Subjects.ToListAsync();
+         return await db.Subjects.Include(x => x.Term).ToListAsync();
     }
 
     [HttpGet("{id}")]

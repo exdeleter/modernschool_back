@@ -50,8 +50,8 @@ public class AuthController : ControllerBase
         return Ok(user);
     }
 
-    [HttpPost("login")]
-    public async Task<ActionResult<string>> Login(UserDto request)
+    [HttpPost("LoginAsAdmin")]
+    public async Task<ActionResult<string>> LoginAsAdmin(UserDto request)
     {
         if (user.UserName != request.UserName) 
         {
@@ -63,16 +63,57 @@ public class AuthController : ControllerBase
             return BadRequest("Wrong password.");
         }
 
-        string token = CreateToken(user);
+        string token = CreateAdminsToken(user);
         return Ok(token);
     }
 
-    private string CreateToken(User user)
+    [HttpPost("LoginAsStudent")]
+    public async Task<ActionResult<string>> LoginAsStudent(UserDto request)
+    {
+        if (user.UserName != request.UserName)
+        {
+            return BadRequest("User not found.");
+        }
+
+        if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
+        {
+            return BadRequest("Wrong password.");
+        }
+
+        string token = CreateStudentToken(user);
+        return Ok(token);
+    }
+
+
+    private string CreateAdminsToken(User user)
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name,user.UserName),
+            new Claim(ClaimTypes.Name, user.UserName),
             new Claim(ClaimTypes.Role, "Admin")
+        };
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            _configuration.GetSection("AppSettings:Token").Value));
+
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+        var token = new JwtSecurityToken(
+            claims: claims,
+            expires: DateTime.Now.AddDays(1),
+            signingCredentials: creds
+        );
+        var jwt = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return jwt;
+    }
+
+    private string CreateStudentToken(User user)
+    {
+        List<Claim> claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Role, "Student")
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(

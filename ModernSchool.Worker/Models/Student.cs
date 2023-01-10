@@ -31,9 +31,4 @@ public class Student : BaseEntity
     /// Телефон
     /// </summary>
     public string Phone { get; set; }
-    
-    /// <summary>
-    /// Список предметов
-    /// </summary>
-    public List<Subject> Subjects { get; set; } = new List<Subject>();  
 }

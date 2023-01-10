@@ -1,4 +1,5 @@
-﻿using ModernSchool.Worker.Contexts;
+﻿using Microsoft.EntityFrameworkCore;
+using ModernSchool.Worker.Contexts;
 using ModernSchool.Worker.Interfaces;
 using ModernSchool.Worker.Models;
 
@@ -23,6 +24,7 @@ public class EFStudentRepository : IStudent
         _context = context;
         if (!context.Students.Any())
         {
+            
             context.Students.Add(new Student
             {
                 Name = "Антон",
@@ -35,10 +37,12 @@ public class EFStudentRepository : IStudent
                     Name = "В", Number = 2, Teacher = new Teacher
                     {
                         Name = "Руслан", Surname = "Сиянковский", Patronymic = "Артемович",
-                        Age = 32, Subject = new Subject { Name = "Физкультура" }
-                    }
+                        Age = 32, Subject = new Subject { Name = "Физкультура" },
+                    },
+                    Subjects = new List<Subject> { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } },
+                    Students= new List<Student> {}
                 },
-                Subjects = new List<Subject>() { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } }
+                //Subjects = new List<Subject>() { new Subject { Name = "БД" }, new Subject { Name = "Русский язк" } }
             });
             context.SaveChanges();
         }
@@ -57,7 +61,7 @@ public class EFStudentRepository : IStudent
         currentStudent.Age = updatedStudent.Age;
         currentStudent.Surname = updatedStudent.Surname;
         currentStudent.Patronymic = updatedStudent.Patronymic;
-        currentStudent.Subjects = updatedStudent.Subjects;
+        //currentStudent.Subjects = updatedStudent.Subjects;
         currentStudent.Class = updatedStudent.Class;
         currentStudent.Phone = updatedStudent.Phone;
 

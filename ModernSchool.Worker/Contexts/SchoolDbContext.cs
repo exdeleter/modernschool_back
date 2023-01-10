@@ -17,4 +17,12 @@ public class SchoolDBContext : DbContext
     public DbSet<Subject> Subjects { get; set; }
 
     public DbSet<Teacher> Teachers { get; set; }
+    
+    public DbSet<Mark>Marks { get; set; }
+    
+    public DbSet<Problem>Problems { get; set; }
+    
+    public DbSet<Term>Terms { get; set; }
+    
+    public DbSet<Schedule>Schedules { get; set; }
 }

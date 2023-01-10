@@ -61,13 +61,13 @@ namespace ModernSchool.Tests.Repository
                                 }
                             },
                             Phone = "8921331133",
-                            Subjects = new List<Subject>()
+                            /*Subjects = new List<Subject>()
                             {
                                 new Subject()
                                 {
                                     Name = "Python"
                                 }
-                            }
+                            }*/
                         });
                     await databaseContext.SaveChangesAsync();
                 }
