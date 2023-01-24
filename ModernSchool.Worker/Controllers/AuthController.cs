@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using ModernSchool.Worker.Authorization;
+using ModernSchool.Worker.Contexts;
+using ModernSchool.Worker.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -12,13 +15,15 @@ namespace ModernSchool.Worker.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
-    // TODO: Добавить юзеров в бд
-    public static User user = new User();
+    
+    public static Authorization.User user = new Authorization.User();
     private readonly IConfiguration _configuration;
+    private SchoolDBContext db;
 
-    public AuthController(IConfiguration configuration)
+    public AuthController(IConfiguration configuration, SchoolDBContext db)
     {
         _configuration = configuration;
+        this.db = db;
     }
 
     private void CreatePasswodHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -40,18 +45,18 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<User>>Register(UserDto request)
+    public async Task<ActionResult<Authorization.User>>Register(UserDto request)
     {
         CreatePasswodHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
         user.UserName = request.UserName;
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
-
+        
         return Ok(user);
     }
 
-    [HttpPost("LoginAsAdmin")]
-    public async Task<ActionResult<string>> LoginAsAdmin(UserDto request)
+    [HttpPost("LoginAsTeacher")]
+    public async Task<ActionResult<string>> LoginAsTeacher(UserDto request)
     {
         if (user.UserName != request.UserName) 
         {
@@ -63,7 +68,15 @@ public class AuthController : ControllerBase
             return BadRequest("Wrong password.");
         }
 
-        string token = CreateAdminsToken(user);
+        string token = CreateTeacherToken(user);
+
+        Models.User client = new Models.User();
+        client.Login = request.UserName;
+        client.Password = request.Password;
+        client.Role = "Teacher";
+        db.Users.Add(client);
+        await db.SaveChangesAsync();
+
         return Ok(token);
     }
 
@@ -81,16 +94,24 @@ public class AuthController : ControllerBase
         }
 
         string token = CreateStudentToken(user);
+
+        Models.User client = new Models.User();
+        client.Login = request.UserName;
+        client.Password = request.Password;
+        client.Role = "Student";
+        db.Users.Add(client);
+        await db.SaveChangesAsync();
+
         return Ok(token);
     }
 
 
-    private string CreateAdminsToken(User user)
+    private string CreateTeacherToken(Authorization.User user)
     {
         List<Claim> claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, "Admin")
+            new Claim(ClaimTypes.Role, "Teacher")
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -108,7 +129,7 @@ public class AuthController : ControllerBase
         return jwt;
     }
 
-    private string CreateStudentToken(User user)
+    private string CreateStudentToken(Authorization.User user)
     {
         List<Claim> claims = new List<Claim>
         {

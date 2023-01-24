@@ -25,4 +25,6 @@ public class SchoolDBContext : DbContext
     public DbSet<Term>Terms { get; set; }
     
     public DbSet<Schedule>Schedules { get; set; }
+
+    public DbSet<User> Users { get; set; }
 }
