@@ -9,7 +9,7 @@ namespace ModernSchool.Worker.Controllers
     [ApiController]
     public class ClassController : BaseController<Class>
     {
-        public ClassController(DbContext context) : base(context)
+        public ClassController(SchoolDBContext context) : base(context)
         {
 
         }

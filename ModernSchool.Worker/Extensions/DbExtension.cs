@@ -12,7 +12,8 @@ public static class DbExtension
         services.AddDbContext<SchoolDBContext>(
             options =>
             {
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), 
+                    b => b.MigrationsAssembly("ModernSchool.Worker"));
                 options.LogTo(message => Debug.WriteLine(message));
             });
 

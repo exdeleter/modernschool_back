@@ -1,5 +1,8 @@
 namespace ModernSchool.Worker.Models;
 
+/// <summary>
+/// Задание
+/// </summary>
 public class Problem: BaseEntity
 {
     /// <summary>

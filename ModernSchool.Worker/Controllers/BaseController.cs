@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ModernSchool.Worker.Contexts;
 using ModernSchool.Worker.Interfaces;
 using ModernSchool.Worker.Models;
 
@@ -10,11 +11,11 @@ public class BaseController<TEntity>
     : ControllerBase, IBaseService<TEntity>
     where TEntity : BaseEntity
 {
-    private  DbContext _context { get; set; }
+    protected SchoolDBContext _context { get; set; }
 
     protected DbSet<TEntity> _dbSet { get; set; }
     
-    public BaseController(DbContext context)
+    public BaseController(SchoolDBContext context)
     {
         _context = context;
         _dbSet = _context.Set<TEntity>();

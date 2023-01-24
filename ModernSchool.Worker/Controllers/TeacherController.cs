@@ -22,16 +22,16 @@ public class TeacherController : ControllerBase
                 Surname = "Алешина",
                 Patronymic = "Серафимовна",
                 Age = 37,
-                Subject = new Subject
-                {
-                    Name = "Базы данных",
-                    Term = new Term
-                    {
-                        Name = "1 четверть",
-                        CurrentYear = 2022,
-                        StartDate = DateTime.UtcNow
-                    }
-                }
+                // Subject = new Subject
+                // {
+                //     Name = "Базы данных",
+                //     Term = new Term
+                //     {
+                //         Name = "1 четверть",
+                //         CurrentYear = 2022,
+                //         StartDate = DateTime.UtcNow
+                //     }
+                // }
             });
             /*
             db.Teachers.Add(new Teacher
@@ -60,7 +60,7 @@ public class TeacherController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Teacher>>> Get()
     {
-        return await db.Teachers.Include(t => t.Subject).ToListAsync();
+        return await db.Teachers/*.Include(t => t.)*/.ToListAsync();
     }
 
     [HttpGet("{id}")]
