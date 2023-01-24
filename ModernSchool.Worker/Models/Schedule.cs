@@ -2,8 +2,18 @@ namespace ModernSchool.Worker.Models;
 
 public class Schedule: BaseEntity
 {
-    public List<Problem> TasksForDay { get; set; }
-    public List<Subject>Subjects { get; set; }
-    public DateTime CurrentDate { get; set; }
-    public Class Class { get; set; }
+    /// <summary>
+    /// Задание
+    /// </summary>
+    public Problem Problem { get; set; }
+    
+    /// <summary>
+    /// Предмет
+    /// </summary>
+    public Subject Subject { get; set; }
+    
+    /// <summary>
+    /// Дата, на которую задано домашнее задание
+    /// </summary>
+    public DateTime Date { get; set; }
 }

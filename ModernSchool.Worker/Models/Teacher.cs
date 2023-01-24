@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ModernSchool.Worker.Models;
+﻿namespace ModernSchool.Worker.Models;
 
 public class Teacher : BaseEntity
 {
@@ -23,9 +21,4 @@ public class Teacher : BaseEntity
     /// Возраст
     /// </summary>
     public int Age { get; set; }
-    
-    /// <summary>
-    /// Предмет, который он приподает
-    /// </summary>
-    public Subject Subject { get; set; }
 }

@@ -11,4 +11,9 @@ public class Mark: BaseEntity
     /// Оценка
     /// </summary>
     public int Score { get; set; }
+    
+    /// <summary>
+    /// Студент
+    /// </summary>
+    public Student Student { get; set; }
 }

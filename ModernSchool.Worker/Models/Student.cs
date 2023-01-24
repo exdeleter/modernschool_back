@@ -31,4 +31,6 @@ public class Student : BaseEntity
     /// Телефон
     /// </summary>
     public string Phone { get; set; }
+    
+    public List<Subject> Subjects { get; set; }
 }
