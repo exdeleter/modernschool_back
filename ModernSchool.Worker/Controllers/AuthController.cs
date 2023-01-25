@@ -5,6 +5,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using ModernSchool.Worker.Contexts;
+using ModernSchool.Worker.Models;
 
 namespace ModernSchool.Worker.Controllers;
 
@@ -13,12 +15,15 @@ namespace ModernSchool.Worker.Controllers;
 public class AuthController : ControllerBase
 {
     // TODO: Добавить юзеров в бд
-    public static User user = new User();
+    public static TempUser user = new();
     private readonly IConfiguration _configuration;
+    private SchoolDBContext _db;
 
-    public AuthController(IConfiguration configuration)
+    private User client;
+    public AuthController(IConfiguration configuration, SchoolDBContext db)
     {
         _configuration = configuration;
+        _db = db;
     }
 
     private void CreatePasswodHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
@@ -40,17 +45,34 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult<User>>Register(UserDto request)
+    public async Task<ActionResult<TempUser>>Register(UserDto request)
     {
         CreatePasswodHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
         user.UserName = request.UserName;
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
 
-        return Ok(user);
+        client = new User
+        {
+            Login = request.UserName,
+            Password = request.Password,
+            Role = "None"
+        };
+
+        if (!(_db.SchoolUsers.Contains(client))) 
+        {
+            _db.SchoolUsers.Add(client);
+            await _db.SaveChangesAsync();
+            return Ok(user);
+        }
+        else
+        {
+            return BadRequest();
+        }
+        
     }
 
-    [HttpPost("LoginAsAdmin")]
+    [HttpPost("LoginAsTeacher")]
     public async Task<ActionResult<string>> LoginAsAdmin(UserDto request)
     {
         if (user.UserName != request.UserName) 
@@ -63,8 +85,19 @@ public class AuthController : ControllerBase
             return BadRequest("Wrong password.");
         }
 
-        string token = CreateAdminsToken(user);
-        return Ok(token);
+        string token = CreateTeacherToken(user);
+
+        if (!(_db.SchoolUsers.Select(x => x.Login == request.UserName && x.Password == request.Password).Count() > 1))
+        {
+            client.Role = "Teacher";
+            await _db.SaveChangesAsync();
+            return Ok(token);
+        }
+        else
+        {
+            return BadRequest();
+        }
+        
     }
 
     [HttpPost("LoginAsStudent")]
@@ -81,11 +114,22 @@ public class AuthController : ControllerBase
         }
 
         string token = CreateStudentToken(user);
-        return Ok(token);
+
+        if (!(_db.SchoolUsers.Select(x => x.Login == request.UserName && x.Password == request.Password).Count() > 1))
+        {
+            client.Role = "Student";
+            await _db.SaveChangesAsync();
+            return Ok(token);
+        }
+        else
+        {
+            return BadRequest();
+        }
+        
     }
 
 
-    private string CreateAdminsToken(User user)
+    private string CreateTeacherToken(TempUser user)
     {
         List<Claim> claims = new List<Claim>
         {
@@ -108,7 +152,7 @@ public class AuthController : ControllerBase
         return jwt;
     }
 
-    private string CreateStudentToken(User user)
+    private string CreateStudentToken(TempUser user)
     {
         List<Claim> claims = new List<Claim>
         {
