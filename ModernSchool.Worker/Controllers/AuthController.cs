@@ -44,22 +44,26 @@ public class AuthController : ControllerBase
         } 
     }
 
-    [HttpPost("register")]
-    public async Task<ActionResult<TempUser>>Register(UserDto request)
+
+    [HttpPost("Register teacher")]
+    public async Task<ActionResult<TempUser>>RegisterTeacher(UserDto request)
     {
         CreatePasswodHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
         user.UserName = request.UserName;
         user.PasswordHash = passwordHash;
         user.PasswordSalt = passwordSalt;
 
+        var token = CreateTeacherToken(user);
         client = new User
         {
             Login = request.UserName,
             Password = request.Password,
-            Role = "None"
+            Role = "Teacher",
+            Token = token
         };
 
-        if (!(_db.SchoolUsers.Contains(client))) 
+        
+        if (!(_db.SchoolUsers.Where(x => x.Login == request.UserName).Count() > 1))
         {
             _db.SchoolUsers.Add(client);
             await _db.SaveChangesAsync();
@@ -67,15 +71,45 @@ public class AuthController : ControllerBase
         }
         else
         {
-            return BadRequest();
+            return BadRequest("This login is already in use.");
         }
         
     }
-
-    [HttpPost("LoginAsTeacher")]
-    public async Task<ActionResult<string>> LoginAsAdmin(UserDto request)
+    [HttpPost("Register student")]
+    public async Task<ActionResult<TempUser>> RegisterStudent(UserDto request)
     {
-        if (user.UserName != request.UserName) 
+        CreatePasswodHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        user.UserName = request.UserName;
+        user.PasswordHash = passwordHash;
+        user.PasswordSalt = passwordSalt;
+
+        var token = CreateStudentToken(user);
+        client = new User
+        {
+            Login = request.UserName,
+            Password = request.Password,
+            Role = "Student",
+            Token = token
+        };
+
+        if (!(_db.SchoolUsers.Select(x => x.Login == request.UserName).Count() > 1))
+        {
+            _db.SchoolUsers.Add(client);
+            await _db.SaveChangesAsync();
+            return Ok(user);
+        }
+        else
+        {
+            return BadRequest("This login is already in use.");
+        }
+
+    }
+
+
+    [HttpPost("Login")]
+    public ActionResult<string> Login(User request)
+    {
+        if (user.UserName != request.Login)
         {
             return BadRequest("User not found.");
         }
@@ -85,47 +119,15 @@ public class AuthController : ControllerBase
             return BadRequest("Wrong password.");
         }
 
-        string token = CreateTeacherToken(user);
-
-        if (!(_db.SchoolUsers.Select(x => x.Login == request.UserName && x.Password == request.Password).Count() > 1))
+        if (!(_db.SchoolUsers.Select(x => x.Login == request.Login && x.Password == request.Password).Count() > 1))
         {
-            client.Role = "Teacher";
-            await _db.SaveChangesAsync();
-            return Ok(token);
+            return Ok(request.Token);
         }
         else
         {
             return BadRequest();
         }
-        
-    }
 
-    [HttpPost("LoginAsStudent")]
-    public async Task<ActionResult<string>> LoginAsStudent(UserDto request)
-    {
-        if (user.UserName != request.UserName)
-        {
-            return BadRequest("User not found.");
-        }
-
-        if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-        {
-            return BadRequest("Wrong password.");
-        }
-
-        string token = CreateStudentToken(user);
-
-        if (!(_db.SchoolUsers.Select(x => x.Login == request.UserName && x.Password == request.Password).Count() > 1))
-        {
-            client.Role = "Student";
-            await _db.SaveChangesAsync();
-            return Ok(token);
-        }
-        else
-        {
-            return BadRequest();
-        }
-        
     }
 
 
@@ -134,7 +136,7 @@ public class AuthController : ControllerBase
         List<Claim> claims = new List<Claim>
         {
             new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, "Admin")
+            new Claim(ClaimTypes.Role, "Teacher")
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
