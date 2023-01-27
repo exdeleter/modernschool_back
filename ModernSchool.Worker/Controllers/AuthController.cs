@@ -92,7 +92,7 @@ public class AuthController : ControllerBase
             Token = token
         };
 
-        if (!(_db.SchoolUsers.Select(x => x.Login == request.UserName).Count() > 1))
+        if (!(_db.SchoolUsers.Where(x => x.Login == request.UserName).Count() > 1))
         {
             _db.SchoolUsers.Add(client);
             await _db.SaveChangesAsync();
