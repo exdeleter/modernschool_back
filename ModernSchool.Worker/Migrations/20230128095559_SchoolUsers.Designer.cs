@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace ModernSchool.Worker.Migrations
 {
     [DbContext(typeof(SchoolDBContext))]
-    [Migration("20230127162513_AddedSchoolUsers")]
-    partial class AddedSchoolUsers
+    [Migration("20230128095559_SchoolUsers")]
+    partial class SchoolUsers
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -260,11 +260,15 @@ namespace ModernSchool.Worker.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Role")
+                    b.Property<byte[]>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("bytea");
 
-                    b.Property<string>("Token")
+                    b.Property<byte[]>("PasswordSalt")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("text");
 

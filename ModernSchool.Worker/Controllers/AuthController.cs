@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using ModernSchool.Worker.Contexts;
 using ModernSchool.Worker.Models;
+using System.Linq;
 
 namespace ModernSchool.Worker.Controllers;
 
@@ -14,8 +15,7 @@ namespace ModernSchool.Worker.Controllers;
 [ApiController]
 public class AuthController : ControllerBase
 {
-    // TODO: Добавить юзеров в бд
-    public static TempUser user = new();
+    //public static TempUser user = new();
     private readonly IConfiguration _configuration;
     private SchoolDBContext _db;
 
@@ -49,25 +49,24 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<TempUser>>RegisterTeacher(UserDto request)
     {
         CreatePasswodHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-        user.UserName = request.UserName;
-        user.PasswordHash = passwordHash;
-        user.PasswordSalt = passwordSalt;
+        //user.UserName = request.UserName;
+        //user.PasswordHash = passwordHash;
+        //user.PasswordSalt = passwordSalt;
 
-        var token = CreateTeacherToken(user);
         client = new User
         {
             Login = request.UserName,
             Password = request.Password,
-            Role = "Teacher",
-            Token = token
+            PasswordHash = passwordHash,
+            PasswordSalt = passwordSalt,
+            Role = "Teacher"
         };
 
-        
-        if (!(_db.SchoolUsers.Where(x => x.Login == request.UserName).Count() > 1))
+        if (!(_db.SchoolUsers.Any(x => x.Login == request.UserName)))
         {
             _db.SchoolUsers.Add(client);
             await _db.SaveChangesAsync();
-            return Ok(user);
+            return Ok(client);
         }
         else
         {
@@ -79,36 +78,65 @@ public class AuthController : ControllerBase
     public async Task<ActionResult<TempUser>> RegisterStudent(UserDto request)
     {
         CreatePasswodHash(request.Password, out byte[] passwordHash, out byte[] passwordSalt);
-        user.UserName = request.UserName;
-        user.PasswordHash = passwordHash;
-        user.PasswordSalt = passwordSalt;
+        //user.UserName = request.UserName;
+        //user.PasswordHash = passwordHash;
+        //user.PasswordSalt = passwordSalt;
 
-        var token = CreateStudentToken(user);
         client = new User
         {
             Login = request.UserName,
             Password = request.Password,
-            Role = "Student",
-            Token = token
+            PasswordHash = passwordHash,
+            PasswordSalt = passwordSalt,
+            Role = "Student"
         };
 
-        if (!(_db.SchoolUsers.Where(x => x.Login == request.UserName).Count() > 1))
+        if (!(_db.SchoolUsers.Any(x => x.Login == request.UserName)))
         {
             _db.SchoolUsers.Add(client);
             await _db.SaveChangesAsync();
-            return Ok(user);
+            return Ok(client);
         }
         else
         {
             return BadRequest("This login is already in use.");
         }
-
+        
     }
 
 
     [HttpPost("Login")]
-    public ActionResult<string> Login(User request)
+    public ActionResult<string> Login(UserDto request)
     {
+        User schUser = new();
+        try
+        {
+            var us = _db.SchoolUsers.Select(x => x).Where(x => x.Login == request.UserName && x.Password == request.Password).ToList();
+            schUser = us.First();
+            //schUser = (User)_db.SchoolUsers.Where(x => x.Login == request.UserName && x.Password == request.Password).Select(x => x);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+        bool flag = VerifyPasswordHash(request.Password, schUser.PasswordHash, schUser.PasswordSalt);
+        if (_db.SchoolUsers.Any(x=>x.Login==request.UserName &&  flag))
+        {
+            string role = schUser.Role;
+            if (role == "Teacher")
+            {
+                return Ok(CreateTeacherToken(schUser));
+            }
+            else if (role == "Student")
+            {
+                return Ok(CreateStudentToken(schUser));
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
+        /*
         if (user.UserName != request.Login)
         {
             return BadRequest("User not found.");
@@ -118,24 +146,31 @@ public class AuthController : ControllerBase
         {
             return BadRequest("Wrong password.");
         }
-
-        if (!(_db.SchoolUsers.Select(x => x.Login == request.Login && x.Password == request.Password).Count() > 1))
-        {
-            return Ok(request.Token);
-        }
+        */
         else
         {
             return BadRequest();
         }
 
+
+        /*
+        if (!(_db.SchoolUsers.Select(x => x.Login == request.Login && x.Password == request.Password).Count() > 1))
+        {
+            return Ok();
+        }
+        else
+        {
+            return BadRequest();
+        }
+        */
     }
 
 
-    private string CreateTeacherToken(TempUser user)
+    private string CreateTeacherToken(User user)
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Name, user.Login),
             new Claim(ClaimTypes.Role, "Teacher")
         };
 
@@ -154,11 +189,11 @@ public class AuthController : ControllerBase
         return jwt;
     }
 
-    private string CreateStudentToken(TempUser user)
+    private string CreateStudentToken(User user)
     {
         List<Claim> claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Name, user.Login),
             new Claim(ClaimTypes.Role, "Student")
         };
 
