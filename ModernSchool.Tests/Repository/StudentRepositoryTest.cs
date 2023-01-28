@@ -53,11 +53,7 @@ namespace ModernSchool.Tests.Repository
                                     Name = "Petia",
                                     Surname = "AAA",
                                     Patronymic = "female",
-                                    Age = 28,
-                                    Subject = new Subject()
-                                    {
-                                        Name = "C#"
-                                    }
+                                    Age = 28
                                 }
                             },
                             Phone = "8921331133",

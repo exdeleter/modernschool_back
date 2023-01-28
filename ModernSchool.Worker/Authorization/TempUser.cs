@@ -1,6 +1,6 @@
 ﻿namespace ModernSchool.Worker.Authorization
 {
-    public class User
+    public class TempUser
     {
         public string UserName { get; set; } = string.Empty;
         public byte[] PasswordHash { get; set; }

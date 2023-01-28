@@ -32,10 +32,10 @@ namespace ModernSchool.Tests.Controller
                             Surname = "Ivanov",
                             Patronymic = "female",
                             Age = 28,
-                            Subject = new Subject()
-                            {
-                                Name = "Matan"
-                            }
+                            //Subject = new Subject()
+                            //{
+                            //    Name = "Matan"
+                           // }
                         }
                     });
                     await databaseContext.SaveChangesAsync();
