@@ -113,7 +113,6 @@ public class AuthController : ControllerBase
         {
             var us = _db.SchoolUsers.Select(x => x).Where(x => x.Login == request.UserName && x.Password == request.Password).ToList();
             schUser = us.First();
-            //schUser = (User)_db.SchoolUsers.Where(x => x.Login == request.UserName && x.Password == request.Password).Select(x => x);
         }
         catch (Exception)
         {
@@ -136,33 +135,11 @@ public class AuthController : ControllerBase
                 return BadRequest();
             }
         }
-        /*
-        if (user.UserName != request.Login)
-        {
-            return BadRequest("User not found.");
-        }
-
-        if (!VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
-        {
-            return BadRequest("Wrong password.");
-        }
-        */
         else
         {
             return BadRequest();
         }
 
-
-        /*
-        if (!(_db.SchoolUsers.Select(x => x.Login == request.Login && x.Password == request.Password).Count() > 1))
-        {
-            return Ok();
-        }
-        else
-        {
-            return BadRequest();
-        }
-        */
     }
 
 
