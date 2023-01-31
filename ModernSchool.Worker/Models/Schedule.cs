@@ -15,5 +15,5 @@ public class Schedule: BaseEntity
     /// <summary>
     /// Дата, на которую задано домашнее задание
     /// </summary>
-    public DateTime Date { get; set; }
+    public DateOnly Date { get; set; }
 }

@@ -13,7 +13,7 @@ public class Problem: BaseEntity
     /// <summary>
     /// Дедлайн
     /// </summary>
-    public DateTime DeadLine { get; set; }
+    public DateOnly DeadLine { get; set; }
     
     /// <summary>
     /// Предмет
