@@ -62,6 +62,12 @@ public static class ServiceExtension
     {
         services.AddSwaggerGen(options =>
         {
+            options.MapType<DateOnly>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Format = "date",
+            });
+
             options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
             {
                 Description = "Standard Authorization header using the Bearer scheme (\"bearer {token}\")",

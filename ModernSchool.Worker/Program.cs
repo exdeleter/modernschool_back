@@ -1,6 +1,14 @@
+using ModernSchool.Worker.Helpers;
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new DateOnlyJsonConverter());
+        options.JsonSerializerOptions.Converters.Add(new NullableDateOnlyJsonConverter());
+    });
+
 builder.Services.AddDbContextConfig(builder);
 builder.Services.ConfigureCors();
 
