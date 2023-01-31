@@ -15,7 +15,7 @@ namespace ModernSchool.Worker.Controllers
         }
         
         [HttpGet("sort")]
-        public async Task<ActionResult<IEnumerable<Problem>>> GetByDateStudentId(int studentID, DateTime date)
+        public async Task<ActionResult<IEnumerable<Problem>>> GetByDateStudentId(int studentID, DateOnly date)
         {
             // var subjectIds = await _context.SubjectStudents
             //     .Include(x => x.Student)
