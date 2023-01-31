@@ -35,35 +35,25 @@ public class ScheduleController : ControllerBase
     // }
     
     [HttpGet("GetCurrentSchedule")]
-    public async Task<ActionResult<Schedule>> CurrentGet(int studentID, DateTime date)
+    public async Task<ActionResult<Schedule>> CurrentGet(int studentID, DateOnly date)
     {
-        
         var _studentSubject = await db.Students
             .Include(x => x.Subjects)
-            .Where(x => x.Id == studentID)
-            .Select(x => x.Subjects)
-            .ToListAsync();
+            .FirstOrDefaultAsync(x => x.Id == studentID);
 
-        var test = new List<int>();
-        
-        foreach (var subject in _studentSubject)
-        {
-            foreach (var underSubject in subject)
-            {
-                test.Add(underSubject.Id);
-            }
-        }
-        
+        if (_studentSubject is null)
+            return BadRequest("Student not found");
+
+        var subjectId =  _studentSubject.Subjects.Select(x => x.Id).ToList();
+
         var schedule = await db.Schedules
             .Include(x => x.Problem)
-            .Include(x => x.Problem.Subject)
             .Include(x => x.Subject)
-            .Where(x => test.Contains(x.Subject.Id))
+            .Where(x => subjectId.Contains(x.Subject.Id))
             .Join(
-                db.Marks.Include(x => x.Problem)
-                    .Include(x => x.Problem.Subject), 
+                db.Marks.Include(x => x.Problem), 
                 s => s.Subject.Id, 
-                m => m.Problem.Subject.Id, 
+                m => m.Problem.Id, 
                 (s,m) =>  new
                 {
                     s.Problem.Subject.Name,
@@ -72,7 +62,7 @@ public class ScheduleController : ControllerBase
                     m.Score,
                 })
             .ToListAsync();
-    
+
         if (schedule == null)
         {
             return NotFound();
