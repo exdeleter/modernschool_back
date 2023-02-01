@@ -49,7 +49,7 @@ public class ScheduleController : ControllerBase
         var schedule = await db.Schedules
             .Include(x => x.Problem)
             .Include(x => x.Subject)
-            .Where(x => subjectId.Contains(x.Subject.Id))
+            .Where(x => subjectId.Contains(x.Subject.Id) && x.Date == date)
             .Join(
                 db.Marks.Include(x => x.Problem), 
                 s => s.Subject.Id, 
