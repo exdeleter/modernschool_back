@@ -10,12 +10,12 @@ public class Term : BaseEntity
     /// <summary>
     /// Начало
     /// </summary>
-    public DateTime StartDate { get; set; }
+    public DateOnly StartDate { get; set; }
     
     /// <summary>
     /// Конец
     /// </summary>
-    public DateTime EndDate { get; set; }
+    public DateOnly EndDate { get; set; }
     
     /// <summary>
     /// Год
