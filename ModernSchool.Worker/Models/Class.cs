@@ -1,4 +1,6 @@
-﻿namespace ModernSchool.Worker.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace ModernSchool.Worker.Models;
 
 public class Class : BaseEntity
 {
@@ -15,10 +17,16 @@ public class Class : BaseEntity
     /// <summary>
     /// Учитель, привязанный к классу (руководитель)
     /// </summary>
-    public Teacher Teacher { get; set; }
+    [ForeignKey("TeacherId")]
+    public Teacher? Teacher { get; set; }
+    
+    /// <summary>
+    /// Идентификатор учителя
+    /// </summary>
+    public int? TeacherId { get; set; }
 
     /// <summary>
     /// Ученики
     /// </summary>
-    public List<Student>Students { get; set; }
+    public List<Student>? Students { get; set; } = new List<Student>();
 }
