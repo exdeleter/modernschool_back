@@ -47,6 +47,8 @@ public class BaseController<TEntity>
 
         await _dbSet.AddAsync(entity);
 
+        await _context.SaveChangesAsync();
+
         return Ok(entity);
     }
     
